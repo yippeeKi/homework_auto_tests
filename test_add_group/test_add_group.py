@@ -15,7 +15,9 @@ class AppDynamicsJob(unittest.TestCase):
 
     def test_app_dynamics_job(self):
         driver = self.driver
+        # open home
         driver.get("http://localhost/addressbook/")
+        # get login
         driver.find_element(By.NAME, "user").click()
         driver.find_element(By.NAME, "user").clear()
         driver.find_element(By.NAME, "user").send_keys("admin")
@@ -23,8 +25,11 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "pass").clear()
         driver.find_element(By.NAME, "pass").send_keys("secret")
         driver.find_element(By.XPATH, "//input[@value='Login']").click()
+        # open group page
         driver.find_element(By.LINK_TEXT, "groups").click()
+        # init new group
         driver.find_element(By.NAME, "new").click()
+        # add new group
         driver.find_element(By.NAME, "group_name").click()
         driver.find_element(By.NAME, "group_name").clear()
         driver.find_element(By.NAME, "group_name").send_keys("test name")
@@ -34,8 +39,11 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "group_footer").click()
         driver.find_element(By.NAME, "group_footer").clear()
         driver.find_element(By.NAME, "group_footer").send_keys("test comment")
+        # submit group creation
         driver.find_element(By.NAME, "submit").click()
+        # return group page
         driver.find_element(By.LINK_TEXT, "groups").click()
+        #logout
         driver.find_element(By.LINK_TEXT, "Logout").click()
 
     def is_element_present(self, how, what):
@@ -54,6 +62,6 @@ class AppDynamicsJob(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
-         
+
 if __name__ == "__main__":
     unittest.main()
