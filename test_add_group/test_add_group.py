@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+import unittest
+
 
 class AppDynamicsJob(unittest.TestCase):
     def setUp(self):
@@ -13,10 +12,7 @@ class AppDynamicsJob(unittest.TestCase):
         # as documented in https://docs.appdynamics.com/display/PRO44/Write+Your+First+Script
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "https://www.google.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-    
+
     def test_app_dynamics_job(self):
         driver = self.driver
         driver.get("http://localhost/addressbook/")
@@ -41,33 +37,23 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "submit").click()
         driver.find_element(By.LINK_TEXT, "groups").click()
         driver.find_element(By.LINK_TEXT, "Logout").click()
-    
+
     def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-    
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
+        try:
+            self.driver.find_element(by=how, value=what)
+        except NoSuchElementException as e:
+            return False
         return True
 
-    def close_alert_and_get_its_text(self):
+    def is_alert_present(self):
         try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
+            self.driver.switch_to_alert()
+        except NoAlertPresentException as e:
+            return False
+        return True
 
     def tearDown(self):
-        # To know more about the difference between verify and assert,
-        # visit https://www.seleniumhq.org/docs/06_test_design_considerations.jsp#validating-results
-        self.assertEqual([], self.verificationErrors)
-
+        self.driver.quit()
+         
 if __name__ == "__main__":
     unittest.main()
-
