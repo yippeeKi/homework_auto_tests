@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
+from group import Group
 import unittest
 
 class AppDynamicsJob(unittest.TestCase):
@@ -54,7 +55,7 @@ class AppDynamicsJob(unittest.TestCase):
         self.open_home_page(driver)
         self.login(driver, "admin", "secret")
         self.open_group_page(driver)
-        self.create_group(driver, "test name", "group name", "some")
+        self.create_group(driver, Group("test name", "group name", "some"))
         self.return_to_groups(driver)
         self.logout(driver)
 
