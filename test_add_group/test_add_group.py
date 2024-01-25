@@ -59,6 +59,15 @@ class AppDynamicsJob(unittest.TestCase):
         self.return_to_groups(driver)
         self.logout(driver)
 
+    def test_app_dynamics_job_empty(self):
+        driver = self.driver
+        self.open_home_page(driver)
+        self.login(driver, "admin", "secret")
+        self.open_group_page(driver)
+        self.create_group(driver, Group("", "", ""))
+        self.return_to_groups(driver)
+        self.logout(driver)
+
     def is_element_present(self, how, what):
         try:
             self.driver.find_element(by=how, value=what)
