@@ -15,13 +15,13 @@ class AppDynamicsJob(unittest.TestCase):
     def open_home_page(self, driver):
         driver.get("http://localhost/addressbook/")
 
-    def login(self, driver):
+    def login(self, driver, username, password):
         driver.find_element(By.NAME, "user").click()
         driver.find_element(By.NAME, "user").clear()
-        driver.find_element(By.NAME, "user").send_keys("admin")
+        driver.find_element(By.NAME, "user").send_keys(username)
         driver.find_element(By.NAME, "pass").click()
         driver.find_element(By.NAME, "pass").clear()
-        driver.find_element(By.NAME, "pass").send_keys("secret")
+        driver.find_element(By.NAME, "pass").send_keys(password)
         driver.find_element(By.XPATH, "//input[@value='Login']").click()
 
     def open_group_page(self, driver):
@@ -52,7 +52,7 @@ class AppDynamicsJob(unittest.TestCase):
     def test_app_dynamics_job(self):
         driver = self.driver
         self.open_home_page(driver)
-        self.login(driver)
+        self.login(driver, "admin", "secret")
         self.open_group_page(driver)
         self.create_group(driver)
         self.return_to_groups(driver)
