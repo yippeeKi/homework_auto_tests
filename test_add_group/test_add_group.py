@@ -5,7 +5,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
 
-
 class AppDynamicsJob(unittest.TestCase):
     def setUp(self):
         # AppDynamics will automatically override this web driver
@@ -13,11 +12,10 @@ class AppDynamicsJob(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
 
-    def test_app_dynamics_job(self):
-        driver = self.driver
-        # open home
+    def open_home_page(self, driver):
         driver.get("http://localhost/addressbook/")
-        # get login
+
+    def login(self, driver):
         driver.find_element(By.NAME, "user").click()
         driver.find_element(By.NAME, "user").clear()
         driver.find_element(By.NAME, "user").send_keys("admin")
@@ -25,8 +23,11 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "pass").clear()
         driver.find_element(By.NAME, "pass").send_keys("secret")
         driver.find_element(By.XPATH, "//input[@value='Login']").click()
-        # open group page
+
+    def open_group_page(self, driver):
         driver.find_element(By.LINK_TEXT, "groups").click()
+
+    def create_group(self, driver):
         # init new group
         driver.find_element(By.NAME, "new").click()
         # add new group
@@ -41,10 +42,21 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "group_footer").send_keys("test comment")
         # submit group creation
         driver.find_element(By.NAME, "submit").click()
-        # return group page
+
+    def return_to_groups(self, driver):
         driver.find_element(By.LINK_TEXT, "groups").click()
-        #logout
+
+    def logout(self, driver):
         driver.find_element(By.LINK_TEXT, "Logout").click()
+
+    def test_app_dynamics_job(self):
+        driver = self.driver
+        self.open_home_page(driver)
+        self.login(driver)
+        self.open_group_page(driver)
+        self.create_group(driver)
+        self.return_to_groups(driver)
+        self.logout(driver)
 
     def is_element_present(self, how, what):
         try:
