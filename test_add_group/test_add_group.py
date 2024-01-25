@@ -27,19 +27,19 @@ class AppDynamicsJob(unittest.TestCase):
     def open_group_page(self, driver):
         driver.find_element(By.LINK_TEXT, "groups").click()
 
-    def create_group(self, driver, name, header, footer):
+    def create_group(self, driver, group):
         # init new group
         driver.find_element(By.NAME, "new").click()
         # add new group
         driver.find_element(By.NAME, "group_name").click()
         driver.find_element(By.NAME, "group_name").clear()
-        driver.find_element(By.NAME, "group_name").send_keys(name)
+        driver.find_element(By.NAME, "group_name").send_keys(group.name)
         driver.find_element(By.NAME, "group_header").click()
         driver.find_element(By.NAME, "group_header").clear()
-        driver.find_element(By.NAME, "group_header").send_keys(header)
+        driver.find_element(By.NAME, "group_header").send_keys(group.header)
         driver.find_element(By.NAME, "group_footer").click()
         driver.find_element(By.NAME, "group_footer").clear()
-        driver.find_element(By.NAME, "group_footer").send_keys(footer)
+        driver.find_element(By.NAME, "group_footer").send_keys(group.footer)
         # submit group creation
         driver.find_element(By.NAME, "submit").click()
 
