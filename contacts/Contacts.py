@@ -10,14 +10,17 @@ class Contacts(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(30)
-    
-    def test_contacts(self):
-        driver = self.driver
+
+    def open_home_page(self, driver):
         driver.get("http://localhost/addressbook/edit.php")
+
+    def login(self, driver):
         driver.find_element(By.NAME, "user").send_keys("admin")
         driver.find_element(By.NAME, "pass").click()
         driver.find_element(By.NAME, "pass").send_keys("secret")
         driver.find_element(By.XPATH, "//input[@value='Login']").click()
+
+    def create_new_contact(self, driver):
         driver.find_element(By.NAME, "firstname").click()
         driver.find_element(By.NAME, "firstname").send_keys("Artem")
         driver.find_element(By.NAME, "middlename").click()
@@ -66,10 +69,20 @@ class Contacts(unittest.TestCase):
         driver.find_element(By.NAME, "notes").click()
         driver.find_element(By.NAME, "notes").send_keys("Test")
         driver.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
-        driver.get("http://localhost/addressbook/")
+
+    def logout(self, driver):
         driver.find_element(By.LINK_TEXT, "home").click()
         driver.find_element(By.LINK_TEXT, "Logout").click()
-    
+
+    def test_contacts(self):
+        driver = self.driver
+        self.open_home_page(driver)
+        self.login(driver)
+        self.create_new_contact(driver)
+        self.open_home_page(driver)
+        self.logout(driver)
+
+
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
