@@ -4,83 +4,35 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from group import Group
+from application import Application
 import unittest
 
 class AppDynamicsJob(unittest.TestCase):
     def setUp(self):
-        # AppDynamics will automatically override this web driver
-        # as documented in https://docs.appdynamics.com/display/PRO44/Write+Your+First+Script
-        self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(30)
-
-    def open_home_page(self):
-        driver = self.driver
-        driver.get("http://localhost/addressbook/")
-
-    def login(self, username, password):
-        driver = self.driver
-        self.open_home_page()
-        driver.find_element(By.NAME, "user").click()
-        driver.find_element(By.NAME, "user").clear()
-        driver.find_element(By.NAME, "user").send_keys(username)
-        driver.find_element(By.NAME, "pass").click()
-        driver.find_element(By.NAME, "pass").clear()
-        driver.find_element(By.NAME, "pass").send_keys(password)
-        driver.find_element(By.XPATH, "//input[@value='Login']").click()
-
-    def open_group_page(self):
-        driver = self.driver
-        driver.find_element(By.LINK_TEXT, "groups").click()
-
-    def create_group(self, group):
-        driver = self.driver
-        self.open_group_page()
-        # init new group
-        driver.find_element(By.NAME, "new").click()
-        # add new group
-        driver.find_element(By.NAME, "group_name").click()
-        driver.find_element(By.NAME, "group_name").clear()
-        driver.find_element(By.NAME, "group_name").send_keys(group.name)
-        driver.find_element(By.NAME, "group_header").click()
-        driver.find_element(By.NAME, "group_header").clear()
-        driver.find_element(By.NAME, "group_header").send_keys(group.header)
-        driver.find_element(By.NAME, "group_footer").click()
-        driver.find_element(By.NAME, "group_footer").clear()
-        driver.find_element(By.NAME, "group_footer").send_keys(group.footer)
-        # submit group creation
-        driver.find_element(By.NAME, "submit").click()
-        self.return_to_groups()
-
-    def return_to_groups(self):
-        driver = self.driver
-        driver.find_element(By.LINK_TEXT, "groups").click()
-
-    def logout(self):
-        driver = self.driver
-        driver.find_element(By.LINK_TEXT, "Logout").click()
+        self.app = Application()
 
     def test_app_dynamics_job(self):
-        self.login("admin", "secret")
-        self.create_group(Group("test name", "group name", "some"))
-        self.logout()
+        self.app.login("admin", "secret")
+        self.app.create_group(Group("test name", "group name", "some"))
+        self.app.logout()
 
 
     def is_element_present(self, how, what):
         try:
-            self.driver.find_element(by=how, value=what)
+            self.app.driver.find_element(by=how, value=what)
         except NoSuchElementException as e:
             return False
         return True
 
     def is_alert_present(self):
         try:
-            self.driver.switch_to_alert()
+            self.app.driver.switch_to_alert()
         except NoAlertPresentException as e:
             return False
         return True
 
     def tearDown(self):
-        self.driver.quit()
+        self.app.close()
 
 if __name__ == "__main__":
     unittest.main()
