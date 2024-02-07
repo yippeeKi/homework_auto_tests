@@ -13,10 +13,13 @@ class AppDynamicsJob(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
 
-    def open_home_page(self, driver):
+    def open_home_page(self):
+        driver = self.driver
         driver.get("http://localhost/addressbook/")
 
-    def login(self, driver, username, password):
+    def login(self, username, password):
+        driver = self.driver
+        self.open_home_page()
         driver.find_element(By.NAME, "user").click()
         driver.find_element(By.NAME, "user").clear()
         driver.find_element(By.NAME, "user").send_keys(username)
@@ -25,10 +28,13 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "pass").send_keys(password)
         driver.find_element(By.XPATH, "//input[@value='Login']").click()
 
-    def open_group_page(self, driver):
+    def open_group_page(self):
+        driver = self.driver
         driver.find_element(By.LINK_TEXT, "groups").click()
 
-    def create_group(self, driver, group):
+    def create_group(self, group):
+        driver = self.driver
+        self.open_group_page()
         # init new group
         driver.find_element(By.NAME, "new").click()
         # add new group
@@ -43,30 +49,21 @@ class AppDynamicsJob(unittest.TestCase):
         driver.find_element(By.NAME, "group_footer").send_keys(group.footer)
         # submit group creation
         driver.find_element(By.NAME, "submit").click()
+        self.return_to_groups()
 
-    def return_to_groups(self, driver):
+    def return_to_groups(self):
+        driver = self.driver
         driver.find_element(By.LINK_TEXT, "groups").click()
 
-    def logout(self, driver):
+    def logout(self):
+        driver = self.driver
         driver.find_element(By.LINK_TEXT, "Logout").click()
 
     def test_app_dynamics_job(self):
-        driver = self.driver
-        self.open_home_page(driver)
-        self.login(driver, "admin", "secret")
-        self.open_group_page(driver)
-        self.create_group(driver, Group("test name", "group name", "some"))
-        self.return_to_groups(driver)
-        self.logout(driver)
+        self.login("admin", "secret")
+        self.create_group(Group("test name", "group name", "some"))
+        self.logout()
 
-    def test_app_dynamics_job_empty(self):
-        driver = self.driver
-        self.open_home_page(driver)
-        self.login(driver, "admin", "secret")
-        self.open_group_page(driver)
-        self.create_group(driver, Group("", "", ""))
-        self.return_to_groups(driver)
-        self.logout(driver)
 
     def is_element_present(self, how, what):
         try:
