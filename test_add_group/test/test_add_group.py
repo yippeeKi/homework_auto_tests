@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from group import Group
-from application import Application
+from test_add_group.model.group import Group
+from test_add_group.fixture.application import Application
 import pytest
 
 
