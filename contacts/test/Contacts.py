@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-from contact_name import ContactName
-from contact_company import ContactCompany
-from contact_address import ContactAddress
-from contact_anniversary import ContactAnniversary
-from contact_birthday import ContactBirthday
-from contact_contacts import ContactContacts
-from contact_extra_contacts import ContactExtraContacts
-from contact_mobile import ContactMobile
-from contact_work import ContactWork
+from contacts.model.contact_name import ContactName
+from contacts.model.contact_company import ContactCompany
+from contacts.model.contact_address import ContactAddress
+from contacts.model.contact_anniversary import ContactAnniversary
+from contacts.model.contact_birthday import ContactBirthday
+from contacts.model.contact_contacts import ContactContacts
+from contacts.model.contact_extra_contacts import ContactExtraContacts
+from contacts.model.contact_mobile import ContactMobile
+from contacts.model.contact_work import ContactWork
 import pytest
-from application import Application
+from contacts.fixture.application import Application
 
 
 @pytest.fixture()
