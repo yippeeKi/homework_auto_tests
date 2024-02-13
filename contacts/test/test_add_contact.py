@@ -8,15 +8,6 @@ from contacts.model.contact_contacts import ContactContacts
 from contacts.model.contact_extra_contacts import ContactExtraContacts
 from contacts.model.contact_mobile import ContactMobile
 from contacts.model.contact_work import ContactWork
-import pytest
-from contacts.fixture.application import Application
-
-
-@pytest.fixture()
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.close)
-    return fixture
 
 
 def test_contacts(app):

@@ -84,5 +84,13 @@ class ContactsHelper:
         driver.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
         self.new_contact_create()
 
+    def delete_first_contact(self):
+        driver = self.app.driver
+        driver.get("http://localhost/addressbook/")
+        driver.find_element(By.NAME, "selected[]").click()
+        driver.find_element(By.XPATH, "//input[@value='Delete']").click()
+        alert = driver.switch_to.alert
+        alert.accept()
+
 
 
