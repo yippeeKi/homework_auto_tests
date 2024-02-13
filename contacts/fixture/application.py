@@ -1,6 +1,7 @@
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from contacts.fixture.session import SessionHelper
 
 
 class Application:
@@ -8,18 +9,11 @@ class Application:
     def __init__(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(30)
+        self.session = SessionHelper(self)
 
     def open_home_page(self):
         driver = self.driver
         driver.get("http://localhost/addressbook/edit.php")
-
-    def login(self, username, password):
-        driver = self.driver
-        self.open_home_page()
-        driver.find_element(By.NAME, "user").send_keys(username)
-        driver.find_element(By.NAME, "pass").click()
-        driver.find_element(By.NAME, "pass").send_keys(password)
-        driver.find_element(By.XPATH, "//input[@value='Login']").click()
 
     def new_contact_name(self, contact_name):
         driver = self.driver
@@ -99,11 +93,6 @@ class Application:
         driver.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
         self.new_contact_create()
         self.open_home_page()
-
-    def logout(self):
-        driver = self.driver
-        driver.find_element(By.LINK_TEXT, "home").click()
-        driver.find_element(By.LINK_TEXT, "Logout").click()
 
     def close(self):
         self.driver.quit()

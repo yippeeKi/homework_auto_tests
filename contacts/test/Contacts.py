@@ -20,7 +20,7 @@ def app(request):
 
 
 def test_contacts(app):
-    app.login("admin", "secret")
+    app.session.login("admin", "secret")
     app.new_contact_name(ContactName("Artem", "AS", "Artemov", "artemka"))
     app.new_contact_company(ContactCompany("Atom"))
     app.new_contact_address(ContactAddress("Novosibirsk", "Lenina"))
@@ -31,4 +31,4 @@ def test_contacts(app):
     app.new_contact_birhday(ContactBirthday("8", "December", "1993"))
     app.new_contact_anniversary(ContactAnniversary("17", "January", "1998"))
     app.new_contact_extra_contacts(ContactExtraContacts("Address", "AddressHome", "Test"))
-    app.logout()
+    app.session.logout()
