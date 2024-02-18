@@ -82,7 +82,7 @@ class ContactsHelper:
     def new_contact_create(self):
         driver = self.app.driver
         driver.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
-        self.new_contact_create()
+        # self.new_contact_create()
 
     def delete_first_contact(self):
         driver = self.app.driver
