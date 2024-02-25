@@ -2,8 +2,8 @@ from test_add_group.fixture.application import Application
 
 import pytest
 
-
 fixture = None
+
 
 @pytest.fixture
 def app(request):
@@ -15,9 +15,10 @@ def app(request):
         if not fixture.is_valid():
             fixture = Application()
             fixture.session.login("admin", "secret")
-    return
+    return fixture
 
-@pytest.fixture(autouse=True)
+
+@pytest.fixture(autouse=True, scope='session')
 def stop(request):
     def fin():
         fixture.session.logout()

@@ -24,16 +24,16 @@ class GroupHelper:
     def fill_group_form(self, group):
         driver = self.app.driver
         self.type("group_name", group.name)
-        self.type("group_header", group.name)
-        self.type("group_footer", group.name)
+        self.type("group_header", group.header)
+        self.type("group_footer", group.footer)
 
     def type(self, field_name, text):
 
         driver = self.app.driver
-        if text.name is not None:
-            driver.find_element(By.NAME(field_name)).click()
-            driver.find_element(By.NAME(field_name)).clear()
-            driver.find_element(By.NAME(field_name)).send_keys(text.name)
+        if text is not None:
+            driver.find_element(By.NAME, field_name).click()
+            driver.find_element(By.NAME, field_name).clear()
+            driver.find_element(By.NAME, field_name).send_keys(text)
 
     def return_to_groups(self):
         driver = self.app.driver
@@ -58,9 +58,3 @@ class GroupHelper:
         driver.find_element(By.NAME, "update").click()
         self.fill_group_form(new_group_data)
         self.return_to_groups()
-
-
-
-
-
-
