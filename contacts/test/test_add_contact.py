@@ -22,4 +22,5 @@ def test_contacts(app):
     app.contacts.new_contact_birhday(ContactBirthday("8", "December", "1993"))
     app.contacts.new_contact_anniversary(ContactAnniversary("17", "January", "1998"))
     app.contacts.new_contact_extra_contacts(ContactExtraContacts("Address", "AddressHome", "Test"))
+    app.contacts.new_contact_create()
     app.session.logout()
