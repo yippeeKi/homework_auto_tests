@@ -9,13 +9,18 @@ class ContactsHelper:
     def new_contact_name(self, contact_name):
         driver = self.app.driver
         driver.find_element(By.NAME, "firstname").click()
+        driver.find_element(By.NAME, "firstname").clear()
         driver.find_element(By.NAME, "firstname").send_keys(contact_name.firstname)
         driver.find_element(By.NAME, "middlename").click()
+        driver.find_element(By.NAME, "middlename").clear()
         driver.find_element(By.NAME, "middlename").send_keys(contact_name.middlename)
         driver.find_element(By.NAME, "lastname").click()
+        driver.find_element(By.NAME, "lastname").clear()
         driver.find_element(By.NAME, "lastname").send_keys(contact_name.lastname)
         driver.find_element(By.NAME, "nickname").click()
+        driver.find_element(By.NAME, "nickname").clear()
         driver.find_element(By.NAME, "nickname").send_keys(contact_name.nickname)
+
 
     def new_contact_company(self, contact_company):
         driver = self.app.driver
@@ -87,10 +92,25 @@ class ContactsHelper:
     def delete_first_contact(self):
         driver = self.app.driver
         driver.get("http://localhost/addressbook/")
-        driver.find_element(By.NAME, "selected[]").click()
+        self.select_first_contact()
         driver.find_element(By.XPATH, "//input[@value='Delete']").click()
         alert = driver.switch_to.alert
         alert.accept()
+
+    def select_first_contact(self):
+        driver = self.app.driver
+        driver.find_element(By.NAME, "selected[]").click()
+
+    def modify_first_contact(self, new_contact_data):
+        driver = self.app.driver
+        driver.get("http://localhost/addressbook/")
+        self.select_first_contact()
+        driver.find_element(By.XPATH, "/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
+        self.new_contact_name(new_contact_data)
+        driver.find_element(By.NAME, "update").click()
+
+
+
 
 
 
