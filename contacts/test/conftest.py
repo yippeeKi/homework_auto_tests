@@ -1,9 +1,12 @@
 import pytest
 from contacts.fixture.application import Application
 
+fixture = None
 
-@pytest.fixture(scope="session")
+
+@pytest.fixture
 def app(request):
+    global fixture
     fixture = Application()
     fixture.session.login("admin", "secret")
 
