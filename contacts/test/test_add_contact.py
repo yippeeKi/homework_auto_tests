@@ -11,7 +11,6 @@ from contacts.model.contact_work import ContactWork
 
 
 def test_contacts(app):
-    app.session.login("admin", "secret")
     app.contacts.new_contact_name(ContactName("Artem", "AS", "Artemov", "artemka"))
     app.contacts.new_contact_company(ContactCompany("Atom"))
     app.contacts.new_contact_address(ContactAddress("Novosibirsk", "Lenina"))
@@ -23,4 +22,4 @@ def test_contacts(app):
     app.contacts.new_contact_anniversary(ContactAnniversary("17", "January", "1998"))
     app.contacts.new_contact_extra_contacts(ContactExtraContacts("Address", "AddressHome", "Test"))
     app.contacts.new_contact_create()
-    app.session.logout()
+
