@@ -9,7 +9,7 @@ class ContactsHelper:
 
     def new_contact_name(self, contact_name):
         driver = self.app.driver
-        driver.find_element(By.NAME, "firstname").click()
+        driver.find_element(By.NAME, "firstname")
         driver.find_element(By.NAME, "firstname").clear()
         driver.find_element(By.NAME, "firstname").send_keys(contact_name.firstname)
         driver.find_element(By.NAME, "middlename").click()
@@ -88,6 +88,7 @@ class ContactsHelper:
     def new_contact_create(self):
         driver = self.app.driver
         driver.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
+        #/html/body/div/div[3]/ul/li[2]/a
         # self.new_contact_create()
 
     def delete_first_contact(self):
@@ -109,6 +110,12 @@ class ContactsHelper:
         driver.find_element(By.XPATH, "/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a/img").click()
         self.new_contact_name(new_contact_data)
         driver.find_element(By.NAME, "update").click()
+
+    def count(self):
+        driver = self.app.driver
+        driver.get("http://localhost/addressbook/")
+        return len(driver.find_elements(By.NAME, "selected[]"))
+
 
 
 
