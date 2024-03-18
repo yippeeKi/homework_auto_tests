@@ -2,10 +2,13 @@
 from test_add_group.model.group import Group
 
 
-def test_app_dynamics_job(app):
+def test_add_group(app):
     old_groups = app.group.get_group_list()
-    app.group.create(Group("test name", "group name", "some"))
+    group = Group("test name", "group name", "some")
+    app.group.create(group)
     new_groups = app.group.get_group_list()
     assert len(old_groups) + 1 == len(new_groups)
+    old_groups.append(group)
+
 
 
