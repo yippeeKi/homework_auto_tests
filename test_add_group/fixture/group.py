@@ -22,6 +22,7 @@ class GroupHelper:
         # submit group creation
         driver.find_element(By.NAME, "submit").click()
         self.return_to_groups()
+        self.group_cache = None
 
     def fill_group_form(self, group):
         driver = self.app.driver
@@ -47,6 +48,7 @@ class GroupHelper:
         self.select_first_group()
         driver.find_element(By.NAME, "delete").click()
         self.return_to_groups()
+        self.group_cache = None
 
     def select_first_group(self):
         driver = self.app.driver
@@ -60,20 +62,24 @@ class GroupHelper:
         driver.find_element(By.NAME, "update").click()
         self.fill_group_form(new_group_data)
         self.return_to_groups()
+        self.group_cache = None
 
     def count(self):
         driver = self.app.driver
         self.open_group_page()
         return len(driver.find_elements(By.NAME, "selected[]"))
 
+    group_cache = None
+
     def get_group_list(self):
-        driver = self.app.driver
-        self.open_group_page()
-        groups_list = []
-        for element in driver.find_elements(By.CSS_SELECTOR, "span,group"):
-            text = element.text
-            id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-            groups_list.append(Group(name=text, id=id))
-        return groups_list
+        if self.group_cache is None:
+            driver = self.app.driver
+            self.open_group_page()
+            self.group_cache = []
+            for element in driver.find_elements(By.CSS_SELECTOR, "span,group"):
+                text = element.text
+                id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=text, id=id))
+        return list(self.group_cache)
 
 
