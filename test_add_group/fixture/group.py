@@ -43,9 +43,12 @@ class GroupHelper:
         driver.find_element(By.LINK_TEXT, "groups").click()
 
     def delete_first_group(self):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         driver = self.app.driver
         self.open_group_page()
-        self.select_first_group()
+        self.select_group_by_index(index)
         driver.find_element(By.NAME, "delete").click()
         self.return_to_groups()
         self.group_cache = None
@@ -54,10 +57,17 @@ class GroupHelper:
         driver = self.app.driver
         driver.find_element(By.NAME, "selected[]").click()
 
-    def modify_first_group(self, new_group_data):
+    def select_group_by_index(self, index):
+        driver = self.app.driver
+        driver.find_elements(By.NAME, "selected[]")[index].click()
+
+    def modify_first_group(self):
+        self.modify_group_by_index(0)
+
+    def modify_group_by_index(self, index, new_group_data):
         driver = self.app.driver
         self.open_group_page()
-        self.select_first_group()
+        self.select_group_by_index(index)
         driver.find_element(By.NAME, "edit").click()
         driver.find_element(By.NAME, "update").click()
         self.fill_group_form(new_group_data)
